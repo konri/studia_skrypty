@@ -3,8 +3,10 @@
 # 1 - x, 0 - o
 
 player=1
+mark_char=""
 tab=[]
 isWin=0
+y=0
 
 for x in {1..10}
 do
@@ -58,56 +60,49 @@ function wypisz
    done 
 }
 
+function ktory_player {
+  if [ "$player" -eq 0 ]; then
+    echo "player o"
+    mark_char="O"
+  else
+    echo "player x"
+    mark_char="X"
+  fi
+}
 
-y=0
 while [ $y -lt 9 ]
 do
-
-  if [ "$player" -eq 0 ]; then
-  echo "player o"
-else
-   echo "player x"
-fi
+  ktory_player
 
   echo "podaj liczbe"
   read liczba
-  clear
+  clear #czyszczenie konsoli
+
   if [ "$liczba" -gt 0 ] && [ "$liczba" -le 9 ]; then   
-    if [ "${tab[$liczba]}" == " " ]
-    then
-       y=$[$y+1]
-       mark_char=""
-       if [ "$player" -eq 0 ]; then
-        mark_char="O"
-         tab[$liczba]="O"
-         player=1
-       else
-        mark_char="X"
-         tab[$liczba]="X"
-         player=0
-       fi
-       sprawdz $mark_char
-       if [ "$isWin" -eq 1 ]; then
+    if [ "${tab[$liczba]}" == " " ]; then
+      y=$[$y+1]
+      if [ "$player" -eq 0 ]; then
+        tab[$liczba]="O"
+        player=1
+      else
+        tab[$liczba]="X"
+        player=0
+      fi
+
+      sprawdz $mark_char
+       
+      if [ "$isWin" -eq 1 ]; then
         echo "Gracz $mark_char wygral!"
         break
-       fi
-     else
+      fi
+
+    else
        echo "Te pole juz jest wypelnione" 
-     fi
-   fi 
+    fi
+  fi 
 
 # wyswietlanie
 
 wypisz
 
 done
-
-
-
-
-
-
-
-
-
-
